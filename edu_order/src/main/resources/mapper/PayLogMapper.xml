@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.order.mapper.PayLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.order.pojo.PayLog">
+        <id column="id" property="id" />
+        <result column="order_no" property="order_no" />
+        <result column="pay_time" property="pay_time" />
+        <result column="total_fee" property="total_fee" />
+        <result column="transaction_id" property="transaction_id" />
+        <result column="trade_state" property="trade_state" />
+        <result column="pay_type" property="pay_type" />
+        <result column="attr" property="attr" />
+        <result column="is_deleted" property="is_deleted" />
+        <result column="gmt_create" property="gmt_create" />
+        <result column="gmt_modified" property="gmt_modified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, order_no, pay_time, total_fee, transaction_id, trade_state, pay_type, attr, is_deleted, gmt_create, gmt_modified
+    </sql>
+
+</mapper>

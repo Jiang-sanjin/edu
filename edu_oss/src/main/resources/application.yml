@@ -1,0 +1,23 @@
+#服务端口
+server:
+  port: 8082
+
+spring:
+  #服务名
+  application:
+    name: edu_oss
+  #环境设置：dev、test、prod
+  profiles:
+    active: dev
+
+#阿里云oss
+aliyun:
+  oss:
+    file:
+      endpoint: xxxxxxxxxxxxxxxxxx    # 你的  endpoint
+      keyid: xxxxxxxxxxxxxx     # 你的   accessKeyId
+      keysecret: xxxxxxxxxxxxxxx   #你的  accessKeySecret
+      #bucket可以在控制台创建，也可以使用java代码创建
+      bucketname: xxxxxxxxxxx   #你的bucket名
+      filehost: xxxxx    #你的文件路径
+

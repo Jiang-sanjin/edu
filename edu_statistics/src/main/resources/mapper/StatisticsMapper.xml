@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.statistics.mapper.StatisticsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.statistics.pojo.Statistics">
+        <id column="id" property="id" />
+        <result column="date_calculated" property="date_calculated" />
+        <result column="register_num" property="register_num" />
+        <result column="login_num" property="login_num" />
+        <result column="video_view_num" property="video_view_num" />
+        <result column="course_num" property="course_num" />
+        <result column="gmt_create" property="gmt_create" />
+        <result column="gmt_modified" property="gmt_modified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, date_calculated, register_num, login_num, video_view_num, course_num, gmt_create, gmt_modified
+    </sql>
+
+</mapper>

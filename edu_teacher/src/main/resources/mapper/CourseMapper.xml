@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.teacher.mapper.CourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.teacher.pojo.Course">
+        <id column="id" property="id" />
+        <result column="teacher_id" property="teacher_id" />
+        <result column="subject_id" property="subject_id" />
+        <result column="title" property="title" />
+        <result column="price" property="price" />
+        <result column="lesson_num" property="lesson_num" />
+        <result column="cover" property="cover" />
+        <result column="buy_count" property="buy_count" />
+        <result column="view_count" property="view_count" />
+        <result column="version" property="version" />
+        <result column="status" property="status" />
+        <result column="gmt_create" property="gmt_create" />
+        <result column="gmt_modified" property="gmt_modified" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, teacher_id, subject_id, title, price, lesson_num, cover, buy_count, view_count, version, status, gmt_create, gmt_modified
+    </sql>
+
+    <!--根据课程ID查询发布课程的详情-->
+    <select id="getCoursePublishVoById" resultType="com.example.teacher.pojo.vo.CoursePublishVo">
+        SELECT
+            ec.id,
+            ec.title,
+            CONVERT(ec.price, DECIMAL(8,2)) as price,
+            ec.cover,
+            ec.lesson_num,
+            es1.title as subject_parent_title,
+            es2.title as subject_title,
+            et.`name` as teacher_name
+        FROM
+            edu_course ec
+                LEFT JOIN edu_teacher et on ec.teacher_id = et.id
+                LEFT JOIN edu_subject es1 on ec.subject_parent_id = es1.id
+                LEFT JOIN edu_subject es2 on ec.subject_id = es2.id
+        WHERE
+            ec.id = #{courseId}
+
+    </select>
+    <select id="getCourseWebVoById" resultType="com.example.teacher.pojo.vo.CourseWebVo">
+        SELECT
+            c.id,
+            c.title,
+            c.cover,
+            CONVERT(c.price, DECIMAL(8,2)) AS price,
+            c.lesson_num AS lesson_num,
+            c.cover,
+            c.buy_count AS buy_count,
+            c.view_count AS view_count,
+            cd.description,
+
+            t.id AS teacher_id,
+            t.name AS teacher_name,
+            t.intro,
+            t.avatar,
+
+            s1.id AS subject_parent_id,
+            s1.title AS subjectLevelOne,
+            s2.id AS subject_id,
+            s2.title AS subjectLevelTwo
+
+        FROM
+            edu_course c
+                LEFT JOIN edu_course_description cd ON c.id = cd.id
+                LEFT JOIN edu_teacher t ON c.teacher_id = t.id
+                LEFT JOIN edu_subject s1 ON c.subject_parent_id = s1.id
+                LEFT JOIN edu_subject s2 ON c.subject_id = s2.id
+        WHERE
+            c.id = #{id}
+    </select>
+
+
+</mapper>

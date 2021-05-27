@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.teacher.mapper.TeacherMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.teacher.pojo.Teacher">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="intro" property="intro" />
+        <result column="career" property="career" />
+        <result column="level" property="level" />
+        <result column="avatar" property="avatar" />
+        <result column="sort" property="sort" />
+        <result column="is_deleted" property="is_deleted" />
+        <result column="gmt_create" property="gmt_create" />
+        <result column="gmt_modified" property="gmt_modified" />
+    </resultMap>
+
+    <resultMap id="TeacherList" type="com.example.teacher.pojo.Teacher" extends="BaseResultMap">
+        <association property="teacherLevel" javaType="com.example.teacher.pojo.TeacherLevel">
+            <id column="lid" property="id"/>
+            <result column="lname" property="name"/>
+
+        </association>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, intro, career, level, avatar, sort, is_deleted, gmt_create, gmt_modified
+    </sql>
+    <!--分页+条件查询-->
+    <select id="getTeacherListBypage" resultMap="TeacherList">
+        select * , tl.name as lname
+        from edu_teacher as t , edu_teacher_level as tl
+        where t.is_deleted = 0 and t.level = tl.id
+        <if test=" teacherQuery.name != null and '' != teacherQuery.name ">
+            and t.name like concat('%',#{teacherQuery.name},'%')
+        </if>
+        <if test=" null != teacherQuery.level  ">
+            and t.level = #{teacherQuery.level}
+        </if>
+        <if test=" null != teacherQuery.gmtCreate  and null != teacherQuery.gmtModified ">
+            and t.gmt_create between #{teacherQuery.gmtCreate} and #{teacherQuery.gmtModified}
+        </if>
+        order by t.id
+    </select>
+
+    <!--获取教师-->
+    <select id="getTeacherList" resultMap="TeacherList">
+        select
+            t.*, tl.name as lname
+        from  edu_teacher as t , edu_teacher_level as tl
+        where
+            t.is_deleted = 0 and t.level = tl.id
+    </select>
+
+    <!--根据id查询教师-->
+    <select id="getTeacherById" resultMap="TeacherList">
+        select
+            t.*, tl.name as lname
+        from  edu_teacher as t , edu_teacher_level as tl
+        where
+            t.is_deleted = 0 and t.level = tl.id and t.id = #{id}
+    </select>
+
+</mapper>
